@@ -1,0 +1,84 @@
+---
+title: "James Tripp"
+output:
+  html_document:
+    df_print: paged
+    theme: united
+---
+
+```{r echo=FALSE, warning=FALSE, message=FALSE}
+library(tidyverse)
+library(kableExtra)
+```
+
+Faculty page: https://warwick.ac.uk/jamestripp
+
+Email: james.tripp@warwick.ac.uk
+
+#### Personal statement
+
+An academic technologist skilled in data analysis, software development, server administration and teaching. I approach my work with enthusiasm, passion and an open mind.
+
+#### Employment
+
+```{r echo=FALSE}
+tribble(
+  ~ Post, ~ Employer, ~ Dates,
+  "Senior Academic Technologist", "University of Warwick", "2018 - 2019",
+  "Academic Technologist", "University of Warwick", "2015 - 2018",
+  "Postdoctoral Research Fellow", "University of Warwick", "2013 - 2016",
+) %>% 
+  kable() %>%
+  kable_styling(
+    full_width = F,
+    position = 'left'
+    )
+```
+
+#### Education
+
+```{r echo=FALSE}
+tribble(
+  ~ Degree, ~ University, ~ Dates,
+  "PhD in Psychology", "University of Warwick", "2010 - 2013",
+  "BSc (Hons) in Psychology", "University of Warwick", "2007 - 2010",
+) %>% 
+  kable() %>%
+  kable_styling(
+    full_width = F,
+    position = 'left'
+    )
+```
+#### Teaching
+
+```{r echo=FALSE}
+tribble(
+  ~ Module, ~ Dates, ~ Material,
+  "IM902: Approaches to the Digital", "2015 - present", '',
+  "IM904: Digital Objects, Digital Methods", "2015 - present", '',
+  "IM920: Digital Sociology", "2015 - 2017", '',
+  "QSTEP Masterclass: Social Media Analysis", "2019", 'Github',
+  "QSTEP Quantitative Methods Workshops", "2017", 'Github'
+) %>% 
+  mutate(
+    Material = cell_spec(
+      Material, "html",
+      link = c('', '', '', 'https://github.com/jamestripp/qstep-socialmedia', 'https://github.com/jamestripp/qstep-workshops')
+    )
+  ) %>%
+  kable('html', escape = FALSE) %>%
+  kable_styling(
+    full_width = F,
+    position = 'left'
+    )
+```
+
+#### Software Projects
+
+* [LE-CAT](https://github.com/jamestripp/lecat) - Lexicon-based Categorization and Analysis Tool developed by the Centre for Interdisciplinary Methodologies in collaboration with the Media of Cooperation Group at the University of Siegen.
+
+* [Backfillz](https://github.com/WarwickCIM/backfillz) - MCMC visualisations package developed at the University of Warwick and supported by the Turing Institute.
+
+#### References
+
+Available upon request
