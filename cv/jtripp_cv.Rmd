@@ -1,0 +1,143 @@
+---
+name: James Tripp
+docname: "Resume"
+fontawesome: yes
+position: "Academic Technologist"
+address: "B0.03, Centre for Interdisciplinary Methodologies, University of Warwick"
+phone: +44 (0) 24 765 74210
+email: "james.tripp@warwick.ac.uk"
+twitter: jamestripp_
+github: jamestripp
+linkedin: jamestripp
+website: warwick.ac.uk/jamestripp
+date: "`r format(Sys.time(), '%B %Y')`"
+output: function(...) vitae::cv_document(..., template = "pricetemplate.tex", citation_package = "biblatex")
+---
+
+```{r setup, include=FALSE}
+# To save log files
+# rmarkdown::render("resume/nprice_resume.Rmd", clean = FALSE)
+
+knitr::opts_chunk$set(echo = FALSE, 
+                      warning = FALSE, 
+                      message = FALSE)
+
+library(tidyverse)
+library(vitae)
+library(lubridate)
+library(glue)
+```
+
+```{r loadData}
+
+# Education
+education <- read_csv("../data/education.csv",
+                      col_types = cols(
+                        begin = col_date("%m/%d/%y"),
+                        end = col_date("%m/%d/%y")
+                        )
+                      )
+
+# Job titles
+job.titles <- read_csv("../data/job-titles.csv",
+                      col_types = cols(
+                        begin = col_date("%m/%d/%y"),
+                        end = col_date("%m/%d/%y")
+                        )
+)
+
+teaching <- read_csv("../data/teaching.csv",
+                      col_types = cols(
+                        begin = col_date("%m/%d/%y"),
+                        end = col_date("%m/%d/%y")
+                        )
+)
+
+# Job descriptions
+job.descriptions <- read_csv("../data/job-descriptions.csv")
+
+# Awards
+awards <- read_csv("../data/awards.csv")
+
+```
+
+## Experience
+
+```{r experience}
+job.titles %>% 
+  # Only jobs that ended less than 5 years ago
+  filter(is.na(end) | interval(end, Sys.Date())/years(1) <= 5) %>%
+  # Join job descriptions
+  left_join(job.descriptions) %>% 
+  # Arrange by descending begin date
+  arrange(desc(begin)) %>% 
+  # Format as detailed entries
+  detailed_entries(
+    what = position,
+    when = as.character(
+      glue("{year(begin)} - {if_else(!is.na(end), as.character(year(end)), 'present')}")),
+    with = employer,
+    where = glue("{city}, {region}, {country}"),
+    why = accomplishments)
+
+```
+
+## Education
+
+```{r education, results = "asis"}
+education %>%
+  detailed_entries(
+    what = degree,
+    when = year(end),
+    with = university,
+    why = notes,
+    where = glue("{city}, {region}, {country}")
+  )
+```
+
+```{r pubSetup}
+software <- c("tripp_marres_2019", "tripp_mcinerny_2019")
+```
+
+```{r software}
+bibliography_entries(title='Software',  "publications.bib") %>%
+  filter(key %in% software) %>%
+  arrange(desc(year), author)
+```
+
+## Awards
+```{r awards}
+awards %>% 
+  brief_entries(
+    what = title,
+    when = year,
+    with = body
+    )
+```
+
+## Workshops
+
+```{r teaching}
+teaching %>% 
+  # Only jobs that ended less than 5 years ago
+  filter(is.na(end) | interval(end, Sys.Date())/years(1) <= 5) %>%
+  arrange(desc(begin)) %>% 
+  # Format as detailed entries
+  detailed_entries(
+    what = module,
+    when = as.character(
+      glue("{year(begin)} - {if_else(!is.na(end), as.character(year(end)), 'present')}")
+      )
+    )
+```
+
+## Relevent skills
+
+- Programming: R, Python, C++, Javascript
+- Databases: Postgres, MySQL
+- Statistical experience: Non-linear modelling, frequentist and Bayesian analysis
+- Linux administration: Ubuntu, CentOS
+
+## References
+
+Available upon request
