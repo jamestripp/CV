@@ -2,7 +2,7 @@
 name: James Tripp
 docname: "Resume"
 fontawesome: yes
-position: "Academic Technologist"
+position: "Senior Academic Technologist"
 address: "B0.03, Centre for Interdisciplinary Methodologies, University of Warwick"
 phone: +44 (0) 24 765 74210
 email: "james.tripp@warwick.ac.uk"
